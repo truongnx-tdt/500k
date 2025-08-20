@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="DashboardForm">
+  <grid id="root" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="1024" height="640"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="headerPanel" class="javax.swing.JPanel" binding="header">
+        <constraints border-constraint="North"/>
+        <properties/>
+      </component>
+      <component id="sidebarPanel" class="javax.swing.JPanel" binding="sidebar">
+        <constraints border-constraint="West"/>
+        <properties/>
+      </component>
+      <grid id="mainArea" layout-manager="GridBagLayout">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="contentPanel" class="javax.swing.JPanel" binding="content">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="orderPanel" class="javax.swing.JPanel" binding="orderPanel">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties/>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
