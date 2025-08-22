@@ -1,3 +1,4 @@
+import models.Employee;
 import models.Product;
 import repositories.ProductRepository;
 
@@ -7,11 +8,13 @@ import java.awt.*;
 
 public class OptionsProductForm extends JDialog {
 	private final Product product;
+    private Employee _employee;
 	private final ProductRepository productRepo = new ProductRepository();
 
-	public OptionsProductForm(JFrame parent, Product p) {
+	public OptionsProductForm(JFrame parent, Product p, Employee employee) {
 		super(parent, "Product Options", true);
 		this.product = p;
+        _employee =  employee;
 
 		setContentPane(buildUI());
 		setSize(380, 520);
@@ -77,8 +80,34 @@ public class OptionsProductForm extends JDialog {
 		actions.setOpaque(false);
 		JButton btnAvailable = createPillButton("Available", new Color(0, 160, 64));
 		JButton btnSoldOut   = createPillButton("Sold out", new Color(100,149,237));
-		JButton btnEdit      = createPillButton("Edit", new Color(117, 130, 255));
-		JButton btnDelete    = createPillButton("Delete", new Color(230, 38, 38));
+        if(_employee.getRoleEmployee().getIdRole() == 1){
+            JButton btnEdit      = createPillButton("Edit", new Color(117, 130, 255));
+            JButton btnDelete    = createPillButton("Delete", new Color(230, 38, 38));
+            actions.add(btnEdit);
+            actions.add(btnDelete);
+
+            btnEdit.addActionListener(e -> {
+                Window parent = SwingUtilities.getWindowAncestor(this);
+                int employeeId = 0; // if you have current employee context, pass it here
+                new AddProductForm(parent, employeeId, product).setVisible(true);
+                dispose();
+            });
+
+            btnDelete.addActionListener(e -> {
+                int confirm = JOptionPane.showConfirmDialog(this,
+                        "Delete " + product.getNameProduct() + "?",
+                        "Confirm Delete", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    if (productRepo.deleteProduct(product.getIdProduct())) {
+                        JOptionPane.showMessageDialog(this, "Deleted!");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Failed to delete product!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
+        }
+
 
 		// Visibility logic based on isActive
 		boolean isActive = product.getIsActive();
@@ -87,8 +116,7 @@ public class OptionsProductForm extends JDialog {
 
 		actions.add(btnAvailable);
 		actions.add(btnSoldOut);
-		actions.add(btnEdit);
-		actions.add(btnDelete);
+
 		root.add(actions, BorderLayout.SOUTH);
 
 		// Events (reuse existing repo methods, adjust as necessary)
@@ -120,26 +148,7 @@ public class OptionsProductForm extends JDialog {
 			}
 		});
 
-		btnEdit.addActionListener(e -> {
-			Window parent = SwingUtilities.getWindowAncestor(this);
-			int employeeId = 0; // if you have current employee context, pass it here
-			new AddProductForm(parent, employeeId, product).setVisible(true);
-			dispose();
-		});
 
-		btnDelete.addActionListener(e -> {
-			int confirm = JOptionPane.showConfirmDialog(this,
-					"Delete " + product.getNameProduct() + "?",
-					"Confirm Delete", JOptionPane.YES_NO_OPTION);
-			if (confirm == JOptionPane.YES_OPTION) {
-				if (productRepo.deleteProduct(product.getIdProduct())) {
-					JOptionPane.showMessageDialog(this, "Deleted!");
-					dispose();
-				} else {
-					JOptionPane.showMessageDialog(this, "Failed to delete product!", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
 
 		return root;
 	}

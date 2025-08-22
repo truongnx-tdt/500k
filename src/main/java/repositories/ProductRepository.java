@@ -116,7 +116,7 @@ public class ProductRepository {
 								 int typeId, int employeeId) throws SQLException {
 		String sql = """
 					UPDATE PosFastFoods.dbo.Product
-					SET NameProduct = ?, PriceProduct = ?, Decriptions = ?, Images = ?, IsActive = ?, IdTypeProduct = ?, IdEmployee = ?
+					SET NameProduct = ?, PriceProduct = ?, Decriptions = ?, Images = ?, IsActive = ?, IdTypeProduct = ?
 					WHERE IdProduct = ?
 				""";
 		try (Connection cn = DB.getConnection(); PreparedStatement ps = cn.prepareStatement(sql)) {
@@ -126,8 +126,7 @@ public class ProductRepository {
 			if (imageBytes != null) ps.setBytes(4, imageBytes); else ps.setNull(4, Types.VARBINARY);
 			ps.setBoolean(5, isActive);
 			ps.setInt(6, typeId);
-			ps.setInt(7, employeeId);
-			ps.setInt(8, id);
+			ps.setInt(7, id);
 			return ps.executeUpdate() > 0;
 		}
 	}

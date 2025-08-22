@@ -446,15 +446,9 @@ public class DashboardForm extends JFrame {
     }
 
     private void onItemRightClick(Product p) {
-        if (_employee.getRoleEmployee().getIdRole() == 1) {
-            OptionsProductForm form = new OptionsProductForm(null, p);
+            OptionsProductForm form = new OptionsProductForm(null, p, _employee);
             form.setVisible(true);
             showCard(currentMenu);
-        } else {
-            JOptionPane.showMessageDialog(this, "You do not have permission to edit this product.",
-                    "Unauthorize", JOptionPane.WARNING_MESSAGE);
-        }
-
     }
 
     // ---------------------------------- handle button click -------------------------------
